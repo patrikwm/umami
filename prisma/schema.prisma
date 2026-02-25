@@ -11,27 +11,32 @@ datasource db {
 }
 
 model User {
-  id          String    @id @unique @map("user_id") @db.Uuid
-  username    String    @unique @db.VarChar(255)
-  password    String    @db.VarChar(60)
-  role        String    @map("role") @db.VarChar(50)
-  logoUrl     String?   @map("logo_url") @db.VarChar(2183)
-  displayName String?   @map("display_name") @db.VarChar(255)
-  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
-  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz(6)
+  id            String    @id @unique @map("user_id") @db.Uuid
+  username      String    @unique @db.VarChar(255)
+  password      String?   @db.VarChar(60)
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime? @map("email_verified") @db.Timestamptz(6)
+  role          String    @map("role") @db.VarChar(50)
+  logoUrl       String?   @map("logo_url") @db.VarChar(2183)
+  displayName   String?   @map("display_name") @db.VarChar(255)
+  createdAt     DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt     DateTime? @map("deleted_at") @db.Timestamptz(6)
 
-  websites  Website[]  @relation("user")
-  createdBy Website[]  @relation("createUser")
-  links     Link[]     @relation("user")
-  pixels    Pixel[]    @relation("user")
-  teams     TeamUser[]
-  reports   Report[]
+  websites     Website[]     @relation("user")
+  createdBy    Website[]     @relation("createUser")
+  links        Link[]        @relation("user")
+  pixels       Pixel[]       @relation("user")
+  teams        TeamUser[]
+  reports      Report[]
+  accounts     Account[]
+  authSessions AuthSession[]
+  auditLogs    AuditLog[]
 
   @@map("user")
 }
 
-model Session {
+model VisitorSession {
   id         String    @id @unique @map("session_id") @db.Uuid
   websiteId  String    @map("website_id") @db.Uuid
   browser    String?   @db.VarChar(20)
@@ -122,7 +127,7 @@ model WebsiteEvent {
   hostname       String?   @db.VarChar(100)
 
   eventData EventData[]
-  session   Session     @relation(fields: [sessionId], references: [id])
+  session   VisitorSession @relation(fields: [sessionId], references: [id])
 
   @@index([createdAt])
   @@index([sessionId])
@@ -175,8 +180,8 @@ model SessionData {
   distinctId  String?   @map("distinct_id") @db.VarChar(50)
   createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  website Website @relation(fields: [websiteId], references: [id])
-  session Session @relation(fields: [sessionId], references: [id])
+  website Website        @relation(fields: [websiteId], references: [id])
+  session VisitorSession @relation(fields: [sessionId], references: [id])
 
   @@index([createdAt])
   @@index([websiteId])
@@ -209,6 +214,7 @@ model TeamUser {
   teamId    String    @map("team_id") @db.Uuid
   userId    String    @map("user_id") @db.Uuid
   role      String    @db.VarChar(50)
+  source    String    @default("manual") @db.VarChar(20)
   createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
 
@@ -266,8 +272,8 @@ model Revenue {
   revenue   Decimal?  @db.Decimal(19, 4)
   createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  website Website @relation(fields: [websiteId], references: [id])
-  session Session @relation(fields: [sessionId], references: [id])
+  website Website        @relation(fields: [websiteId], references: [id])
+  session VisitorSession @relation(fields: [sessionId], references: [id])
 
   @@index([websiteId])
   @@index([sessionId])
@@ -316,3 +322,99 @@ model Pixel {
   @@index([createdAt])
   @@map("pixel")
 }
+
+// Auth.js models for OIDC/OAuth integration
+model Account {
+  id                String    @id @unique @map("account_id") @db.Uuid
+  userId            String    @map("user_id") @db.Uuid
+  type              String    @db.VarChar(50)
+  provider          String    @db.VarChar(50)
+  providerAccountId String    @map("provider_account_id") @db.VarChar(255)
+  refreshToken      String?   @map("refresh_token") @db.Text
+  accessToken       String?   @map("access_token") @db.Text
+  expiresAt         Int?      @map("expires_at")
+  tokenType         String?   @map("token_type") @db.VarChar(50)
+  scope             String?   @db.Text
+  idToken           String?   @map("id_token") @db.Text
+  sessionState      String?   @map("session_state") @db.Text
+  createdAt         DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("account")
+}
+
+model AuthSession {
+  id           String    @id @unique @map("auth_session_id") @db.Uuid
+  sessionToken String    @unique @map("session_token") @db.VarChar(255)
+  userId       String    @map("user_id") @db.Uuid
+  expires      DateTime  @db.Timestamptz(6)
+  createdAt    DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("auth_session")
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expires    DateTime @db.Timestamptz(6)
+
+  @@unique([identifier, token])
+  @@map("verification_token")
+}
+
+// OIDC Provider configuration for admin-managed providers
+model OidcProvider {
+  id            String    @id @unique @map("provider_id") @db.Uuid
+  name          String    @db.VarChar(100)
+  type          String    @db.VarChar(50)
+  category      String?   @default("oidc") @db.VarChar(50)
+  issuer        String    @db.VarChar(500)
+  clientId      String    @map("client_id") @db.VarChar(255)
+  clientSecret  String    @map("client_secret") @db.VarChar(500)
+  authUrl       String?   @map("auth_url") @db.VarChar(500)
+  tokenUrl      String?   @map("token_url") @db.VarChar(500)
+  userinfoUrl   String?   @map("userinfo_url") @db.VarChar(500)
+  scope         String?   @db.VarChar(500)
+  enabled       Boolean   @default(true)
+  autoCreate    Boolean   @default(true) @map("auto_create")
+  trusted       Boolean   @default(false)
+  adminGroup    String?   @map("admin_group") @db.VarChar(200)
+  viewOnlyGroup String?   @map("view_only_group") @db.VarChar(200)
+  teamMappings  Json?     @map("team_mappings")
+  extraConfig   Json?     @map("extra_config")
+  sortOrder     Int?      @map("sort_order")
+  isPrimary     Boolean   @default(false) @map("is_primary")
+  createdAt     DateTime? @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime? @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([enabled])
+  @@index([type])
+  @@index([category])
+  @@map("oidc_provider")
+}
+
+model AuditLog {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String?   @map("user_id") @db.Uuid
+  action    String    @db.VarChar(100)
+  resource  String?   @db.VarChar(255)
+  metadata  Json?
+  ipAddress String?   @map("ip_address") @db.VarChar(45)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_log")
+}
+

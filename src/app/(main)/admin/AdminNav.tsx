@@ -1,6 +1,6 @@
 import { SideMenu } from '@/components/common/SideMenu';
 import { useMessages, useNavigation } from '@/components/hooks';
-import { Globe, User, Users } from '@/components/icons';
+import { Globe, KeyRound, ScrollText, User, Users } from '@/components/icons';
 
 export function AdminNav({ onItemClick }: { onItemClick?: () => void }) {
   const { formatMessage, labels } = useMessages();
@@ -27,6 +27,18 @@ export function AdminNav({ onItemClick }: { onItemClick?: () => void }) {
           label: formatMessage(labels.teams),
           path: '/admin/teams',
           icon: <Users />,
+        },
+        {
+          id: 'providers',
+          label: formatMessage(labels.providers),
+          path: '/admin/providers',
+          icon: <KeyRound />,
+        },
+        {
+          id: 'audit',
+          label: formatMessage(labels.auditLog),
+          path: '/admin/audit',
+          icon: <ScrollText />,
         },
       ],
     },

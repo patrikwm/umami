@@ -3,6 +3,7 @@ import { ROLE_PERMISSIONS, ROLES, SHARE_TOKEN_HEADER } from '@/lib/constants';
 import { secret } from '@/lib/crypto';
 import { getRandomChars } from '@/lib/generate';
 import { createSecureToken, parseSecureToken, parseToken } from '@/lib/jwt';
+import { auth as getAuthSession } from '@/lib/next-auth';
 import redis from '@/lib/redis';
 import { ensureArray } from '@/lib/utils';
 import { getUser } from '@/queries/prisma/user';
@@ -16,9 +17,34 @@ export function getBearerToken(request: Request) {
 }
 
 export async function checkAuth(request: Request) {
+  const shareToken = await parseShareToken(request);
+
+  // Try Auth.js session first (cookie-based)
+  try {
+    const session = await getAuthSession();
+
+    if (session?.user?.id) {
+      const user = await getUser(session.user.id);
+
+      if (user) {
+        user.isAdmin = user.role === ROLES.admin;
+        log({ session, user, shareToken });
+
+        return {
+          user,
+          shareToken,
+          token: null,
+          authKey: null,
+        };
+      }
+    }
+  } catch (e) {
+    log('Auth.js session check failed, falling back to Bearer token:', e);
+  }
+
+  // Fallback to Bearer token (legacy / API tokens)
   const token = getBearerToken(request);
   const payload = parseSecureToken(token, secret());
-  const shareToken = await parseShareToken(request);
 
   let user = null;
   const { userId, authKey } = payload || {};

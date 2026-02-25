@@ -156,7 +156,13 @@ export async function deleteUser(userId: string) {
     client.websiteEvent.deleteMany({
       where: { websiteId: { in: websiteIds } },
     }),
-    client.session.deleteMany({
+    client.visitorSession.deleteMany({
+      where: { websiteId: { in: websiteIds } },
+    }),
+    client.revenue.deleteMany({
+      where: { websiteId: { in: websiteIds } },
+    }),
+    client.segment.deleteMany({
       where: { websiteId: { in: websiteIds } },
     }),
     client.teamUser.deleteMany({
@@ -196,6 +202,25 @@ export async function deleteUser(userId: string) {
     }),
     client.website.deleteMany({
       where: { id: { in: websiteIds } },
+    }),
+    client.website.updateMany({
+      where: { createdBy: userId },
+      data: { createdBy: null },
+    }),
+    client.link.deleteMany({
+      where: { userId },
+    }),
+    client.pixel.deleteMany({
+      where: { userId },
+    }),
+    client.auditLog.deleteMany({
+      where: { userId },
+    }),
+    client.account.deleteMany({
+      where: { userId },
+    }),
+    client.authSession.deleteMany({
+      where: { userId },
     }),
     client.user.delete({
       where: {

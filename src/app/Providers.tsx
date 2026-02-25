@@ -2,6 +2,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, ZenProvider } from '@umami/react-zen';
 import { useRouter } from 'next/navigation';
+import { SessionProvider } from 'next-auth/react';
 import { useEffect } from 'react';
 import { IntlProvider } from 'react-intl';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
@@ -49,14 +50,16 @@ export function Providers({ children }) {
   }
 
   return (
-    <ZenProvider>
-      <RouterProvider navigate={navigate}>
-        <MessagesProvider>
-          <QueryClientProvider client={client}>
-            <ErrorBoundary>{children}</ErrorBoundary>
-          </QueryClientProvider>
-        </MessagesProvider>
-      </RouterProvider>
-    </ZenProvider>
+    <SessionProvider>
+      <ZenProvider>
+        <RouterProvider navigate={navigate}>
+          <MessagesProvider>
+            <QueryClientProvider client={client}>
+              <ErrorBoundary>{children}</ErrorBoundary>
+            </QueryClientProvider>
+          </MessagesProvider>
+        </RouterProvider>
+      </ZenProvider>
+    </SessionProvider>
   );
 }

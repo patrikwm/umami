@@ -18,6 +18,7 @@ export * from './queries/useEventDataValuesQuery';
 export * from './queries/useLinkQuery';
 export * from './queries/useLinksQuery';
 export * from './queries/useLoginQuery';
+export * from './queries/useOidcProvidersQuery';
 export * from './queries/usePixelQuery';
 export * from './queries/usePixelsQuery';
 export * from './queries/useRealtimeQuery';

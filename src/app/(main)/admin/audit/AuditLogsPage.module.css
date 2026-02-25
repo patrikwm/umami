@@ -1,0 +1,37 @@
+.tableContainer {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--base300);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.table thead {
+  background-color: var(--base100);
+  border-bottom: 2px solid var(--base300);
+}
+
+.table th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  color: var(--base700);
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--base200);
+  vertical-align: top;
+}
+
+.table tbody tr:hover {
+  background-color: var(--base50);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}

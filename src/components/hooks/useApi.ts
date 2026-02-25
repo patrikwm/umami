@@ -19,10 +19,16 @@ async function handleResponse(res: FetchResponse): Promise<any> {
 export function useApi() {
   const shareToken = useApp(selector);
 
-  const defaultHeaders = {
-    authorization: `Bearer ${getClientAuthToken()}`,
-    [SHARE_TOKEN_HEADER]: shareToken?.token,
-  };
+  const defaultHeaders: Record<string, string> = {};
+  const token = getClientAuthToken();
+
+  if (token) {
+    defaultHeaders.authorization = `Bearer ${token}`;
+  }
+
+  if (shareToken?.token) {
+    defaultHeaders[SHARE_TOKEN_HEADER] = shareToken.token;
+  }
   const basePath = process.env.basePath;
 
   const getUrl = (url: string) => {

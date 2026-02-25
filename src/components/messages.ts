@@ -84,6 +84,7 @@ export const labels = defineMessages({
   analytics: { id: 'label.analytics', defaultMessage: 'Analytics' },
   login: { id: 'label.login', defaultMessage: 'Login' },
   logout: { id: 'label.logout', defaultMessage: 'Logout' },
+  auditLog: { id: 'label.audit-log', defaultMessage: 'Audit Log' },
   singleDay: { id: 'label.single-day', defaultMessage: 'Single day' },
   dateRange: { id: 'label.date-range', defaultMessage: 'Date range' },
   viewDetails: { id: 'label.view-details', defaultMessage: 'View details' },
@@ -246,7 +247,6 @@ export const labels = defineMessages({
   segment: { id: 'label.segment', defaultMessage: 'Segment' },
   cohort: { id: 'label.cohort', defaultMessage: 'Cohort' },
   day: { id: 'label.day', defaultMessage: 'Day' },
-  date: { id: 'label.date', defaultMessage: 'Date' },
   pageOf: { id: 'label.page-of', defaultMessage: 'Page {current} of {total}' },
   create: { id: 'label.create', defaultMessage: 'Create' },
   search: { id: 'label.search', defaultMessage: 'Search' },
@@ -363,6 +363,68 @@ export const labels = defineMessages({
   support: { id: 'label.support', defaultMessage: 'Support' },
   documentation: { id: 'label.documentation', defaultMessage: 'Documentation' },
   switchAccount: { id: 'label.switch-account', defaultMessage: 'Switch account' },
+  signInWith: { id: 'label.sign-in-with', defaultMessage: 'Sign in with {provider}' },
+  continueWith: { id: 'label.continue-with', defaultMessage: 'Continue with {provider}' },
+  or: { id: 'label.or', defaultMessage: 'or' },
+  localAccount: { id: 'label.local-account', defaultMessage: 'Local account' },
+  providers: { id: 'label.providers', defaultMessage: 'Providers' },
+  singleSignOn: { id: 'label.single-sign-on', defaultMessage: 'Single Sign-On' },
+  noSsoProviders: {
+    id: 'label.no-sso-providers',
+    defaultMessage: 'No SSO providers configured.',
+  },
+  issuer: { id: 'label.issuer', defaultMessage: 'Issuer' },
+  clientId: { id: 'label.client-id', defaultMessage: 'Client ID' },
+  clientSecret: { id: 'label.client-secret', defaultMessage: 'Client Secret' },
+  scope: { id: 'label.scope', defaultMessage: 'Scope' },
+  authorizationUrl: { id: 'label.authorization-url', defaultMessage: 'Authorization URL' },
+  tokenUrl: { id: 'label.token-url', defaultMessage: 'Token URL' },
+  userinfoUrl: { id: 'label.userinfo-url', defaultMessage: 'Userinfo URL' },
+  trusted: { id: 'label.trusted', defaultMessage: 'Trusted' },
+  adminGroup: { id: 'label.admin-group', defaultMessage: 'Admin Group' },
+  viewOnlyGroup: { id: 'label.view-only-group', defaultMessage: 'View-Only Group' },
+  teamMappings: { id: 'label.team-mappings', defaultMessage: 'Team Mappings' },
+  callbackUri: { id: 'label.callback-uri', defaultMessage: 'Callback URI' },
+  sortOrder: { id: 'label.sort-order', defaultMessage: 'Sort Order' },
+  isPrimary: { id: 'label.is-primary', defaultMessage: 'Set as Primary Login' },
+  resource: { id: 'label.resource', defaultMessage: 'Resource' },
+  date: { id: 'label.date', defaultMessage: 'Date' },
+  autoCreateUsers: { id: 'label.auto-create-users', defaultMessage: 'Auto-create users' },
+  addProvider: { id: 'label.add-provider', defaultMessage: 'Add provider' },
+  addOidcProvider: { id: 'label.add-oidc-provider', defaultMessage: 'Add OIDC Provider' },
+  addOauth2Provider: { id: 'label.add-oauth2-provider', defaultMessage: 'Add OAuth2 Provider' },
+  editProvider: { id: 'label.edit-provider', defaultMessage: 'Edit provider' },
+  deleteProvider: { id: 'label.delete-provider', defaultMessage: 'Delete provider' },
+  enabled: { id: 'label.enabled', defaultMessage: 'Enabled' },
+  providerType: { id: 'label.provider-type', defaultMessage: 'Provider Type' },
+  providerCategory: { id: 'label.provider-category', defaultMessage: 'Provider Category' },
+  selectProviderType: { id: 'label.select-provider-type', defaultMessage: 'Select provider type' },
+  oidcProviders: { id: 'label.oidc-providers', defaultMessage: 'OIDC Providers' },
+  oauth2Providers: { id: 'label.oauth2-providers', defaultMessage: 'OAuth 2.0 Providers' },
+  hostedDomain: { id: 'label.hosted-domain', defaultMessage: 'Hosted Domain (hd)' },
+  tenantId: { id: 'label.tenant-id', defaultMessage: 'Tenant ID' },
+  authServerId: { id: 'label.auth-server-id', defaultMessage: 'Authorization Server ID' },
+  extraConfiguration: { id: 'label.extra-configuration', defaultMessage: 'Extra Configuration' },
+  configuration: { id: 'label.configuration', defaultMessage: 'Configuration' },
+  roleMappings: { id: 'label.role-mappings', defaultMessage: 'Role Mappings' },
+  advanced: { id: 'label.advanced', defaultMessage: 'Advanced' },
+  test: { id: 'label.test', defaultMessage: 'Test' },
+  testConfiguration: { id: 'label.test-configuration', defaultMessage: 'Test Configuration' },
+  requiredScopes: { id: 'label.required-scopes', defaultMessage: 'Required Scopes' },
+  testingTip: { id: 'label.testing-tip', defaultMessage: 'Testing Tip' },
+  providerId: { id: 'label.provider-id', defaultMessage: 'Provider ID' },
+  discoveryEndpoint: { id: 'label.discovery-endpoint', defaultMessage: 'Discovery Endpoint' },
+  testLoginUrl: { id: 'label.test-login-url', defaultMessage: 'Test Login URL' },
+  testingSteps: { id: 'label.testing-steps', defaultMessage: 'Testing Steps' },
+  configuredRoles: { id: 'label.configured-roles', defaultMessage: 'Configured Role Groups' },
+  optionalConfiguration: {
+    id: 'label.optional-configuration',
+    defaultMessage: 'Optional Configuration',
+  },
+  advancedEndpointOverrides: {
+    id: 'label.advanced-endpoint-overrides',
+    defaultMessage: 'Advanced Endpoint Overrides',
+  },
 });
 
 export const messages = defineMessages({
@@ -514,5 +576,150 @@ export const messages = defineMessages({
   serverError: {
     id: 'message.sever-error',
     defaultMessage: 'Server error',
+  },
+  trustedProviderHelp: {
+    id: 'message.trusted-provider-help',
+    defaultMessage: 'Trust this provider for email verification and account linking',
+  },
+  adminGroupHelp: {
+    id: 'message.admin-group-help',
+    defaultMessage: 'Users in this IdP group get the admin role',
+  },
+  viewOnlyGroupHelp: {
+    id: 'message.view-only-group-help',
+    defaultMessage: 'Users in this IdP group get read-only access',
+  },
+  teamMappingsHelp: {
+    id: 'message.team-mappings-help',
+    defaultMessage:
+      'JSON mapping of IdP groups to Umami team IDs (e.g., {"eng-team": "team-uuid", "marketing": "team-uuid"})',
+  },
+  scope: {
+    id: 'message.scope',
+    defaultMessage: 'OAuth/OIDC scope (e.g., openid profile email groups)',
+  },
+  authorizationUrl: {
+    id: 'message.authorization-url',
+    defaultMessage: 'Authorization URL (optional, for providers without discovery)',
+  },
+  tokenUrl: {
+    id: 'message.token-url',
+    defaultMessage: 'Token URL (optional)',
+  },
+  userinfoUrl: {
+    id: 'message.userinfo-url',
+    defaultMessage: 'Userinfo URL (optional)',
+  },
+  callbackUri: {
+    id: 'message.callback-uri',
+    defaultMessage: 'Redirect URI (configure this in your IdP)',
+  },
+  sortOrder: {
+    id: 'message.sort-order',
+    defaultMessage: 'Display order on login page (lower numbers appear first)',
+  },
+  isPrimaryHelp: {
+    id: 'message.is-primary-help',
+    defaultMessage:
+      'When enabled, the login page will default to Single Sign-On instead of local credentials',
+  },
+  providerCategoryHelp: {
+    id: 'message.provider-category-help',
+    defaultMessage:
+      'OIDC: Full OpenID Connect with auto-discovery. OAuth 2.0: Manual endpoint configuration required.',
+  },
+  oauth2NoGroups: {
+    id: 'message.oauth2-no-groups',
+    defaultMessage: 'OAuth 2.0 providers do not support group/role mapping.',
+  },
+  hostedDomainHelp: {
+    id: 'message.hosted-domain-help',
+    defaultMessage:
+      'Google Workspace domain restriction (e.g., "company.com"). Without this, ANY Google account can log in.',
+  },
+  tenantIdHelp: {
+    id: 'message.tenant-id-help',
+    defaultMessage:
+      'Azure AD tenant ID. Use "common" for multi-tenant, or your tenant GUID for single-tenant.',
+  },
+  authServerIdHelp: {
+    id: 'message.auth-server-id-help',
+    defaultMessage:
+      'Okta authorization server ID (e.g., "default"). Required for groups claim. Leave empty for org-level server.',
+  },
+  issuerAutoDiscovery: {
+    id: 'message.issuer-auto-discovery',
+    defaultMessage:
+      'For OIDC providers, endpoints are automatically discovered from the issuer URL.',
+  },
+  oauth2ManualEndpoints: {
+    id: 'message.oauth2-manual-endpoints',
+    defaultMessage:
+      'OAuth 2.0 providers require manual configuration of all endpoint URLs (authorization, token, userinfo).',
+  },
+  testConfigHelp: {
+    id: 'message.test-config-help',
+    defaultMessage:
+      'Use this tab to verify your configuration and get the necessary URLs for testing.',
+  },
+  requiredScopesHelp: {
+    id: 'message.required-scopes-help',
+    defaultMessage:
+      'These are the recommended scopes for this provider type. Adjust in the Configuration tab if needed.',
+  },
+  testProviderAfterSave: {
+    id: 'message.test-provider-after-save',
+    defaultMessage:
+      'After saving this provider, you can test the login flow using the Test Login URL in the edit screen.',
+  },
+  callbackUriHelp: {
+    id: 'message.callback-uri-help',
+    defaultMessage:
+      "Add this URL to your identity provider's allowed redirect URIs / callback URLs.",
+  },
+  callbackUriPlaceholder: {
+    id: 'message.callback-uri-placeholder',
+    defaultMessage:
+      'The actual callback URI will be generated after you save this provider. Use this pattern to configure your identity provider in advance.',
+  },
+  selectProviderTypeFirst: {
+    id: 'message.select-provider-type-first',
+    defaultMessage: 'Please select a provider type to continue',
+  },
+  discoveryEndpointHelp: {
+    id: 'message.discovery-endpoint-help',
+    defaultMessage: 'You can verify OIDC configuration by accessing this URL in your browser.',
+  },
+  oauth2NoDiscovery: {
+    id: 'message.oauth2-no-discovery',
+    defaultMessage:
+      'OAuth 2.0 providers do not have auto-discovery. All endpoints are configured manually.',
+  },
+  optionalEndpointsHelp: {
+    id: 'message.optional-endpoints-help',
+    defaultMessage:
+      'Only set these if your OIDC provider does not support auto-discovery or if you need to override the discovered endpoints.',
+  },
+  testLoginUrlHelp: {
+    id: 'message.test-login-url-help',
+    defaultMessage:
+      'Open this URL in an incognito/private browser window to test the login flow without affecting your current session.',
+  },
+  testStep1: {
+    id: 'message.test-step-1',
+    defaultMessage: 'Ensure the Callback URI is configured in your identity provider.',
+  },
+  testStep2: {
+    id: 'message.test-step-2',
+    defaultMessage: 'For OIDC providers: verify the Discovery Endpoint loads successfully.',
+  },
+  testStep3: {
+    id: 'message.test-step-3',
+    defaultMessage:
+      'Open the Test Login URL in an incognito/private window and attempt to sign in.',
+  },
+  testStep4: {
+    id: 'message.test-step-4',
+    defaultMessage: 'Check that you are redirected back and logged in with the correct role.',
   },
 });
